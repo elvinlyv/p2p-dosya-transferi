@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>WebRTC P2P Dosya Transferi</title>
+</head>
+<body>
+  <h1>P2P Dosya Transferi</h1>
+  <p id="greeting"></p>
+
+  <h2>Gönderici</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="createOffer()">Teklif Oluştur</button>
+  <textarea id="offer" rows="6" cols="60" placeholder="Teklif buraya gelir"></textarea>
+  <button onclick="receiveAnswer()">Cevabı Uygula</button>
+  <textarea id="answer" rows="6" cols="60" placeholder="Cevabı buraya yapıştır"></textarea>
+  <button onclick="sendFile()">Dosyayı Gönder</button>
+
+  <h2>Alıcı</h2>
+  <button onclick="receiveOffer()">Teklifi Al</button>
+  <button onclick="createAnswer()">Cevap Oluştur</button>
+  <button onclick="startReceiving()">Bağlantıyı Başlat</button>
+
+  <br><br>
+  <a id="downloadLink" style="display:none">Dosyayı indir</a>
+
+  <script src="main.js"></script>
+  <script>
+    // Sayfa yüklenince kullanıcı adını göster
+    const user = localStorage.getItem("username");
+    if (user) {
+      document.getElementById("greeting").innerText = `👤 Giriş yapan kullanıcı: ${user}`;
+    }
+  </script>
+</body>
+</html>

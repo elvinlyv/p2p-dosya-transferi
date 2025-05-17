@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: p2p-dosya-transferi
+    env: python
+    buildCommand: ""
+    startCommand: "python auth.py"
+    plan: free
