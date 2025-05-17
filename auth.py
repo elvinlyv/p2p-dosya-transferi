@@ -46,5 +46,8 @@ def webrtc():
 # 🔽 Burası önemli: Render için port tanımı yapılır
 if __name__ == '__main__':
     import os
-    port = int(os.environ.get("PORT", 5000))
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 10000))  # Render PORT tanımlıysa onu kullan
     app.run(host='0.0.0.0', port=port)
+
