@@ -1,7 +1,24 @@
-<form method="POST">
-    <h2>Giriş Yap</h2>
-    Kullanıcı Adı: <input name="username"><br>
-    Şifre: <input name="password" type="password"><br>
-    <button type="submit">Giriş</button>
-    <p><a href="/register">Kayıt Ol</a></p>
-</form>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap</title>
+</head>
+<body>
+    <h1>Giriş Yap</h1>
+    <form method="post" onsubmit="return saveUsername();">
+        <label>Kullanıcı Adı: <input type="text" name="username" id="username" required></label><br>
+        <label>Şifre: <input type="password" name="password" required></label><br>
+        <button type="submit">Giriş</button>
+    </form>
+    <p>Hesabınız yok mu? <a href="/register">Kayıt olun</a></p>
+
+    <script>
+        function saveUsername() {
+            const username = document.getElementById('username').value;
+            localStorage.setItem('username', username);
+            return true;  // Formu gönder
+        }
+    </script>
+</body>
+</html>

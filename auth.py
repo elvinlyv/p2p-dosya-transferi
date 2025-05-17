@@ -4,7 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = 'gizli-anahtar'
 
-users = {}  # Gerçek sistemde veritabanı gerekir
+# Kullanıcı verilerini tutan basit sözlük
+users = {}
 
 @app.route('/')
 def home():
@@ -20,7 +21,7 @@ def login():
         if username in users and check_password_hash(users[username], password):
             session['username'] = username
             return redirect(url_for('webrtc'))
-        return 'Hatalı giriş!'
+        return '❌ Hatalı giriş!'
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -42,12 +43,7 @@ def webrtc():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('index.html')
-
-# 🔽 Burası önemli: Render için port tanımı yapılır
 if __name__ == '__main__':
     import os
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))  # Render PORT tanımlıysa onu kullan
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
-
