@@ -4,8 +4,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-offers = {}
-answers = {}
+offers = {}   # username: offer
+answers = {}  # username: answer
 
 @app.route('/offer/<username>', methods=['POST', 'GET'])
 def offer(username):
@@ -15,11 +15,14 @@ def offer(username):
     elif request.method == 'GET':
         return jsonify(offers.get(username, {}))
 
-@app.route('/answer/<username>', methods=['POST'])
+@app.route('/answer/<username>', methods=['POST', 'GET'])
 def answer(username):
-    answers[username] = request.json
-    return '', 200
+    if request.method == 'POST':
+        answers[username] = request.json
+        return '', 200
+    elif request.method == 'GET':
+        return jsonify(answers.get(username, {}))
 
 @app.route('/')
 def index():
-    return '✅ WebRTC Signaling Server Çalışıyor'
+    return '✅ WebRTC signaling server çalışıyor'
