@@ -4,25 +4,28 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-offers = {}   # username: offer
-answers = {}  # username: answer
+offers = {}
+answers = {}
 
-@app.route('/offer/<username>', methods=['POST', 'GET'])
-def offer(username):
+@app.route('/offer/<target>', methods=['POST', 'GET'])
+def offer(target):
     if request.method == 'POST':
-        offers[username] = request.json
+        offers[target] = request.json
         return '', 200
-    elif request.method == 'GET':
-        return jsonify(offers.get(username, {}))
+    else:
+        return jsonify(offers.get(target, {}))
 
-@app.route('/answer/<username>', methods=['POST', 'GET'])
-def answer(username):
+@app.route('/answer/<target>', methods=['POST', 'GET'])
+def answer(target):
     if request.method == 'POST':
-        answers[username] = request.json
+        answers[target] = request.json
         return '', 200
-    elif request.method == 'GET':
-        return jsonify(answers.get(username, {}))
+    else:
+        return jsonify(answers.get(target, {}))
 
 @app.route('/')
 def index():
-    return '✅ WebRTC signaling server çalışıyor'
+    return '✅ Signaling server çalışıyor'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

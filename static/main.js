@@ -1,8 +1,15 @@
-const signalingServer = "https://p2p-dosya-transferi.onrender.com"; 
+
+const signalingServer = "https://p2p-dosya-transferi.onrender.com";
 const currentUser = localStorage.getItem("username");
 
 let peerConnection;
 let dataChannel;
+
+function showStatus(message, color = "green") {
+    const status = document.getElementById("status");
+    status.textContent = message;
+    status.style.color = color;
+}
 
 function startConnection() {
     const targetUser = document.getElementById("targetUser").value;
@@ -13,6 +20,8 @@ function startConnection() {
         return;
     }
 
+    showStatus("📤 Dosya hazırlanıyor...");
+
     peerConnection = new RTCPeerConnection();
     dataChannel = peerConnection.createDataChannel("file");
 
@@ -20,18 +29,22 @@ function startConnection() {
         const reader = new FileReader();
         reader.onload = () => {
             dataChannel.send(reader.result);
-            alert("📤 Dosya gönderildi!");
+            showStatus("✅ Dosya gönderildi!");
         };
         reader.readAsArrayBuffer(file);
     };
 
     peerConnection.createOffer().then(offer => {
         peerConnection.setLocalDescription(offer);
-        fetch(`${signalingServer}/offer/${targetUser}`, {
+        return fetch(`${signalingServer}/offer/${targetUser}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ offer, sender: currentUser })
         });
+    }).then(() => {
+        showStatus("📨 Teklif gönderildi.");
+    }).catch(err => {
+        showStatus("❌ Hata oluştu: " + err.message, "red");
     });
 }
 
@@ -39,7 +52,7 @@ function checkOffer() {
     fetch(`${signalingServer}/offer/${currentUser}`)
         .then(res => res.json())
         .then(async data => {
-            if (!data.offer) return alert("Yeni teklif yok!");
+            if (!data.offer) return showStatus("Yeni teklif yok!");
 
             peerConnection = new RTCPeerConnection();
             peerConnection.ondatachannel = event => {
@@ -62,5 +75,9 @@ function checkOffer() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ answer })
             });
+
+            showStatus("✅ Dosya alındı!");
+        }).catch(err => {
+            showStatus("❌ Hata: " + err.message, "red");
         });
 }
