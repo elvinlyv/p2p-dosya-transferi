@@ -1,5 +1,5 @@
 
-const signalingServer = "https://senin-signaling-urlin.onrender.com";
+const signalingServer = "https://p2p-dosya-transferi.onrender.com";
 const currentUser = localStorage.getItem("username");
 
 let peerConnection;
