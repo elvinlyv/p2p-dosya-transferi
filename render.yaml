@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: p2p-dosya-transferi
+    name: signaling-server
     env: python
     buildCommand: ""
     startCommand: "python signaling_server.py"
