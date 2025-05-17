@@ -2,32 +2,32 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Tüm istemcilere izin verir
+CORS(app)
 
-offer_data = None
-answer_data = None
+offers = {}
+answers = {}
 
-@app.route('/offer', methods=['POST', 'GET'])
-def offer():
-    global offer_data
+@app.route('/offer/<username>', methods=['POST', 'GET'])
+def offer(username):
     if request.method == 'POST':
-        offer_data = request.json
+        offers[username] = request.json
         return '', 200
     elif request.method == 'GET':
-        return jsonify(offer_data)
+        return jsonify(offers.get(username, {}))
 
-@app.route('/answer', methods=['POST', 'GET'])
-def answer():
-    global answer_data
+@app.route('/answer/<username>', methods=['POST', 'GET'])
+def answer(username):
     if request.method == 'POST':
-        answer_data = request.json
+        answers[username] = request.json
         return '', 200
     elif request.method == 'GET':
-        return jsonify(answer_data)
+        return jsonify(answers.get(username, {}))
 
 @app.route('/')
 def index():
-    return '✅ WebRTC Signaling Server Çalışıyor'
+    return '✅ Çok kullanıcılı WebRTC Signaling Server aktif!'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
