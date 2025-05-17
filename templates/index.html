@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -28,6 +29,10 @@
             display: none;
             margin-top: 20px;
         }
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -43,9 +48,11 @@
 
     <button onclick="checkOffer()">📥 Gelen Dosyayı Al</button>
     <a id="downloadLink" download="gelen_dosya">Dosyayı İndir</a>
+
+    <p id="status"></p>
 </div>
 
-<script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="/static/main.js"></script>
 <script>
   document.getElementById("currentUser").textContent = localStorage.getItem("username");
 </script>
