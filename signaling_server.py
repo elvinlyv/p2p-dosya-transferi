@@ -15,19 +15,11 @@ def offer(username):
     elif request.method == 'GET':
         return jsonify(offers.get(username, {}))
 
-@app.route('/answer/<username>', methods=['POST', 'GET'])
+@app.route('/answer/<username>', methods=['POST'])
 def answer(username):
-    if request.method == 'POST':
-        answers[username] = request.json
-        return '', 200
-    elif request.method == 'GET':
-        return jsonify(answers.get(username, {}))
+    answers[username] = request.json
+    return '', 200
 
 @app.route('/')
 def index():
-    return '✅ Çok kullanıcılı WebRTC Signaling Server aktif!'
-
-if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    return '✅ WebRTC Signaling Server Çalışıyor'

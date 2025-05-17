@@ -3,5 +3,5 @@ services:
     name: p2p-dosya-transferi
     env: python
     buildCommand: ""
-    startCommand: "gunicorn auth:app"
+    startCommand: "python signaling_server.py"
     plan: free
