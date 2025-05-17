@@ -1,4 +1,4 @@
-const signalingServer = "https://senin-render-urlin.onrender.com"; // Bunu kendi URL’inle değiştir
+const signalingServer = "https://p2p-dosya-transferi.onrender.com"; // Bunu kendi URL’inle değiştir
 const currentUser = localStorage.getItem("username");
 
 let peerConnection;
